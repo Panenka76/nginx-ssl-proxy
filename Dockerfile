@@ -13,11 +13,12 @@
 #
 # nginx-ssl-proxy
 #
-# VERSION   0.0.1
+# VERSION   0.0.2
 
-FROM nginx
+FROM nginx:1.10.0
 
 MAINTAINER Evan Brown <evanbrown@google.com>
+MAINTAINER Stijn Opheide <stijn@panenka76.com>
 
 RUN rm /etc/nginx/conf.d/*.conf
 

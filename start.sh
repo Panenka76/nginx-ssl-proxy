@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
-# Env says we're using SSL 
+# Env says we're using SSL
 if [ -n "${ENABLE_SSL+1}" ] && [ "${ENABLE_SSL,,}" = "true" ]; then
   echo "Enabling SSL..."
   cp /usr/src/proxy_ssl.conf /etc/nginx/conf.d/proxy.conf
@@ -21,7 +21,7 @@ else
   cp /usr/src/proxy_nossl.conf /etc/nginx/conf.d/proxy.conf
 fi
 
-# If an htpasswd file is provided, download and configure nginx 
+# If an htpasswd file is provided, download and configure nginx
 if [ -n "${ENABLE_BASIC_AUTH+1}" ] && [ "${ENABLE_BASIC_AUTH,,}" = "true" ]; then
   echo "Enabling basic auth..."
   sed -i "s/#auth_basic/auth_basic/g;" /etc/nginx/conf.d/proxy.conf
@@ -47,6 +47,14 @@ if [ -n "${SERVICE_PORT_ENV_NAME+1}" ]; then
   # get value of the env variable in SERVICE_PORT_ENV_NAME as port, if that's not set,
   # SERVICE_PORT_ENV_NAME has the port value
   TARGET_SERVICE="$TARGET_SERVICE:${!SERVICE_PORT_ENV_NAME:=$SERVICE_PORT_ENV_NAME}"
+fi
+
+if [ -n "${DISABLE_HEALTH_CHECK+1}" ] && [ "${DISABLE_HEALTH_CHECK,,}" = "true" ]; then
+	echo "Disabling proxy health check"
+	cp /usr/src/health_check/disable_health_check.conf /etc/nginx/conf.d/health_check.conf
+else
+	echo "Enabling proxy health check"
+	cp /usr/src/health_check/proxy_health_check.conf /etc/nginx/conf.d/health_check.conf
 fi
 
 # Tell nginx the address and port of the service to proxy to

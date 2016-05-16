@@ -30,5 +30,6 @@ ADD start.sh /usr/src/
 ADD nginx/nginx.conf /etc/nginx/
 ADD nginx/proxy*.conf /usr/src/
 ADD nginx/extra/*.conf /etc/nginx/extra-conf.d/
+ADD nginx/health_check /usr/src/health_check
 
 ENTRYPOINT ./start.sh
